@@ -38,7 +38,7 @@
             display: inline-block;
         }
 
-        #redirectButton, #summarizeButton {
+        #redirectButton, #summarizeButton, #replyButton {
             background-color: #1e81b0;
             color: white;
             padding: 10px 20px;
@@ -82,8 +82,8 @@
             padding: 10px; /* Optional: Add padding for better visibility */
             margin: auto; /* Center the div horizontally */
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: left;
+            justify-content: left;
             text-alight: left;
             overflow-y: auto;
         }
@@ -91,22 +91,44 @@
             font-weight: bold; /* Make the first word of each line bold */
         }
 
+        #input_email {
+            width: auto;
+            height: 30px;
+            resize: both; /* Enable resizing in both directions */
+            overflow: auto; /* Add scrollbars when the content overflows */
+        }
+        form {
+            padding: 10px; /* Optional: Add padding for better visibility */
+            margin: auto; /* Center the div horizontally */
+            align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Email Page</h1>
+        <h1>Email Page for account: {{ email_id }}</h1>
+
+        <form id='emailForm'>
+            {% csrf_token %}
+            <input type="text" id="input_email" name="input_email" required>
+            <br>
+            <button type="button" onclick="replyEmails()" id="replyButton">Generate Email Reply</button>
+        </form>
+
+
+
         <a href="/" id="homeLink">Home</a>
         <button onclick="summarizeEmails()" id="summarizeButton">Summarize Email</button>
-        <div contenteditable="true" id="emailSummaries"></div>
 
-        {% comment %} <textarea markdown="1" id="emailSummaries" placeholder="Hit Summarize Email to see your unread email summaries!" readonly></textarea> {% endcomment %}
+        <div contenteditable="true" id="emailSummaries"></div>
+       
         <div id="loadingSpinner"></div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script>
 
     <script>
+    
         function summarizeEmails() {
             // var md = window.markdownit();
 
@@ -125,6 +147,35 @@
                     // Hide the loading spinner when the request is complete
                     document.getElementById('loadingSpinner').style.display = 'none';
                 });
+        }
+
+        function replyEmails() {
+            var form = document.getElementById('emailForm');
+
+            // Create a FormData object to collect form data
+            var formData = new FormData(form);
+
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+            // Set up the POST request
+            xhr.open('POST', '{% url "generate_email_reply" %}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Add this line for Django to recognize the request as AJAX
+            document.getElementById('loadingSpinner').style.display = 'inline-block';
+
+            // Set the event handler to handle the response
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    document.getElementById('emailSummaries').innerHTML = xhr.responseText;
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                } else {
+                    // Request failed
+                    console.error('POST request failed');
+                }
+            };
+
+            // Send the request with the form data
+            xhr.send(formData);
         }
     </script>
 
