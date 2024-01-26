@@ -38,7 +38,7 @@
             display: inline-block;
         }
 
-        #redirectButton, #summarizeButton, #replyButton {
+        #redirectButton, #summarizeButton, #replyButton, #toneButton {
             background-color: #1e81b0;
             color: white;
             padding: 10px 20px;
@@ -91,7 +91,7 @@
             font-weight: bold; /* Make the first word of each line bold */
         }
 
-        #input_email {
+        #input_email, #input_email_tone {
             width: auto;
             height: 30px;
             resize: both; /* Enable resizing in both directions */
@@ -107,6 +107,8 @@
 <body>
     <div class="container">
         <h1>Email Page for account: {{ email_id }}</h1>
+        
+        <a href="/" id="homeLink">Home</a>
 
         <form id='emailForm'>
             {% csrf_token %}
@@ -115,10 +117,14 @@
             <button type="button" onclick="replyEmails()" id="replyButton">Generate Email Reply</button>
         </form>
 
+        <form id='toneForm'>
+            {% csrf_token %}
+            <input type="text" id="input_email_tone" name="input_email_tone" required>
+            <br>
+            <button type="button" onclick="checkTone()" id="toneButton">Describe Email Tone</button>
+        </form>
 
-
-        <a href="/" id="homeLink">Home</a>
-        <button onclick="summarizeEmails()" id="summarizeButton">Summarize Email</button>
+        <button onclick="summarizeEmails()" id="summarizeButton">Summarize My Unread Emails</button>
 
         <div contenteditable="true" id="emailSummaries"></div>
        
@@ -160,6 +166,35 @@
 
             // Set up the POST request
             xhr.open('POST', '{% url "generate_email_reply" %}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Add this line for Django to recognize the request as AJAX
+            document.getElementById('loadingSpinner').style.display = 'inline-block';
+
+            // Set the event handler to handle the response
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    document.getElementById('emailSummaries').innerHTML = xhr.responseText;
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                } else {
+                    // Request failed
+                    console.error('POST request failed');
+                }
+            };
+
+            // Send the request with the form data
+            xhr.send(formData);
+        }
+
+        function checkTone() {
+            var form = document.getElementById('toneForm');
+
+            // Create a FormData object to collect form data
+            var formData = new FormData(form);
+
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+            // Set up the POST request
+            xhr.open('POST', '{% url "infer_email_tone" %}', true);
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Add this line for Django to recognize the request as AJAX
             document.getElementById('loadingSpinner').style.display = 'inline-block';
 

@@ -1,7 +1,8 @@
 import semantic_kernel as sk
 from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion, AzureChatCompletion
+import email_client
 
-def generate_reply(input_text):
+def detect_tone(input_text):
     kernel = sk.Kernel()
 
     useAzureOpenAI = True
@@ -22,17 +23,17 @@ def generate_reply(input_text):
 
     productivityFunctions = kernel.import_semantic_plugin_from_directory(plugins_directory, "ProductivityPlugin")
 
-    replyEmailFunction = productivityFunctions["ReplyEmail"]
+    emailToneDetectionFunction = productivityFunctions["DetectTone"]
 
     inputEmail = input_text
-    return replyEmailFunction.invoke(inputEmail) 
+    return emailToneDetectionFunction.invoke(inputEmail) 
 
 if __name__ == "__main__":
     import sys
 
     # Accept input from command line arguments
     input_from_cmd = sys.argv[1] if len(sys.argv) > 1 else ""
-    
-    result = generate_reply(input_from_cmd)
+
+    result = detect_tone(input_from_cmd)
     print(result)
 

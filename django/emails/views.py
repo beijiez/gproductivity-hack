@@ -22,10 +22,7 @@ def generate_email_reply(request):
     result = subprocess.check_output(['python', '../semantic_kernel/reply_email.py', input_text])
     return HttpResponse(result)
 
-def process_input(request):
-    if request.method == 'POST':
-        input_text = request.POST.get('input_text', '')
-        
-        return JsonResponse({'result': input_text})
-    else:
-        return JsonResponse({'error': 'Invalid request method'})
+def detect_email_tone(request):
+    input_text = request.POST.get('input_email_tone', 'no input')
+    result = subprocess.check_output(['python', '../semantic_kernel/detect_email_tone.py', input_text])
+    return HttpResponse(result)
