@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to GProductivity Helper!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #redirectButton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #redirectButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://kumospace.mo.cloudinary.net/https://content.kumospace.com/hubfs/iStock-1293501978.jpg?tx=w_responsive:fallback-max-width_1255;fallback-max-width-mobile_720" alt="Productivity Image" id="productiveImage">
+        <h1>Welcome to GProductivity Helper!</h1>
+        <button id="redirectButton" onclick="redirectToOutlook()">Go to Outlook</button>
+    </div>
+
+    <script>
+        function redirectToOutlook() {
+            window.location.href = "/emails/outlook";
+        }
+    </script>
+</body>
+</html>

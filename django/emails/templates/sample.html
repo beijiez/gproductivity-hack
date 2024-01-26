@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Renderer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #textArea {
+            width: 80%;
+            height: 200px;
+            resize: vertical;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <textarea id="textArea" placeholder="Enter text here"></textarea>
+
+    <script>
+        // Function to render entered text
+        function renderText() {
+            var textArea = document.getElementById('textArea');
+            var renderedText = textArea.value;
+
+            // Display the rendered text in the console (you can replace this with your desired rendering logic)
+            console.log(renderedText);
+        }
+    </script>
+
+    <!-- Add a button to trigger the rendering function -->
+    <button onclick="renderText()">Render Text</button>
+</body>
+</html>
