@@ -4,7 +4,11 @@ Semantic Kernel Hackathon Project
 
 ## What
 
-This is a hackakathon project to utilize Semantic Kernel to build a web application. The web application is a simple web application that allows users to retrieve his/her unread emails in a summary format, propose possible replies, and detect the sentiment of the email.
+This is a hackakathon project to utilize Semantic Kernel to build a sample web application. The web application is a simple tool that allows users to retrieve his/her unread emails in a summary format, propose possible replies, detect the sentiment of the email, and search for email with keywords.
+
+It features
+- 3 Semantic Functions (reply email, summarize emails) in the folder [plugins](./semantic_kernel/plugins/)
+- 1 Native Function with Semantic Memory integration - [search email](./semantic_kernel/search_emails.py#55)
 
 ## Get started
 
@@ -30,8 +34,9 @@ python manage.py runserver
 
 ## Tech Stack
 
-- semantic-kernel
-- django
+- [Semantic-Kernel](https://github.com/microsoft/semantic-kernel)
+- [django web framework](https://www.djangoproject.com/)
+- [python](https://www.python.org/)
 
 ## Contributing
 
