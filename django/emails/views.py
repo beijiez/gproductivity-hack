@@ -26,3 +26,8 @@ def detect_email_tone(request):
     input_text = request.POST.get('input_email_tone', 'no input')
     result = subprocess.check_output(['python', '../semantic_kernel/detect_email_tone.py', input_text])
     return HttpResponse(result)
+
+def search_emails(request):
+    input_text = request.POST.get('input_email_search', 'no input')
+    result = subprocess.check_output(['python', '../semantic_kernel/search_emails.py', input_text])
+    return HttpResponse(result)

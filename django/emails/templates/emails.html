@@ -38,7 +38,7 @@
             display: inline-block;
         }
 
-        #redirectButton, #summarizeButton, #replyButton, #toneButton {
+        #redirectButton, #summarizeButton, #replyButton, #toneButton, #searchButton {
             background-color: #1e81b0;
             color: white;
             padding: 10px 20px;
@@ -91,7 +91,7 @@
             font-weight: bold; /* Make the first word of each line bold */
         }
 
-        #input_email, #input_email_tone {
+        #input_email, #input_email_tone,input_email_search {
             width: auto;
             height: 30px;
             resize: both; /* Enable resizing in both directions */
@@ -124,6 +124,13 @@
             <button type="button" onclick="checkTone()" id="toneButton">Describe Email Tone</button>
         </form>
 
+        <form id='searchForm'>
+            {% csrf_token %}
+            <input type="text" id="input_email_search" name="input_email_search" required>
+            <br>
+            <button type="button" onclick="searchEmail()" id="searchButton">Search in my Emails</button>
+        </form>
+
         <button onclick="summarizeEmails()" id="summarizeButton">Summarize My Unread Emails</button>
 
         <div contenteditable="true" id="emailSummaries"></div>
@@ -136,8 +143,8 @@
     <script>
     
         function summarizeEmails() {
-            // var md = window.markdownit();
-
+            document.getElementById('emailSummaries').innerHTML = "";
+            
             document.getElementById('loadingSpinner').style.display = 'inline-block';
 
             // Send an HTTP GET request to trigger the Python function
@@ -156,6 +163,8 @@
         }
 
         function replyEmails() {
+            document.getElementById('emailSummaries').innerHTML = "";
+
             var form = document.getElementById('emailForm');
 
             // Create a FormData object to collect form data
@@ -185,6 +194,8 @@
         }
 
         function checkTone() {
+            document.getElementById('emailSummaries').innerHTML = "";
+
             var form = document.getElementById('toneForm');
 
             // Create a FormData object to collect form data
@@ -195,6 +206,37 @@
 
             // Set up the POST request
             xhr.open('POST', '{% url "infer_email_tone" %}', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Add this line for Django to recognize the request as AJAX
+            document.getElementById('loadingSpinner').style.display = 'inline-block';
+
+            // Set the event handler to handle the response
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    document.getElementById('emailSummaries').innerHTML = xhr.responseText;
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                } else {
+                    // Request failed
+                    console.error('POST request failed');
+                }
+            };
+
+            // Send the request with the form data
+            xhr.send(formData);
+        }
+
+        function searchEmail() {
+            document.getElementById('emailSummaries').innerHTML = "";
+
+            var form = document.getElementById('searchForm');
+
+            // Create a FormData object to collect form data
+            var formData = new FormData(form);
+
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+            // Set up the POST request
+            xhr.open('POST', '{% url "search_emails" %}', true);
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Add this line for Django to recognize the request as AJAX
             document.getElementById('loadingSpinner').style.display = 'inline-block';
 

@@ -25,8 +25,8 @@ productivityFunctions = kernel.import_semantic_plugin_from_directory(plugins_dir
 
 summarizeEmailFunction = productivityFunctions["SummarizeEmail"]
 
-# emailBody = "Looking to develop or practice your generative AI skills independently in a creative, yet functional way? The SkillUp AI Challenge from The Garage is a 60-minute generative AI creative exercise that helps you further enhance your prompt engineering skills. Walk away after an hour with a creative vision to share and feel confident in your abilities – with a badge to showcase your accomplishments:"
 emails = email_client.get_emails()
+
 
 n = 1
 for email in emails:
