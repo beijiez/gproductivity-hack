@@ -12,6 +12,8 @@ It features
 
 [![Watch the Demo](./assets/short-demo.gif)](./assets/demo.mp4)
 
+Click on the video to download a demo ⬆️
+
 ## Get started
 
 - Deploy an OpenAI instance in a subscription
