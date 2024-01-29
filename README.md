@@ -10,10 +10,7 @@ It features
 - 3 Semantic Functions (reply email, summarize emails) in the folder [plugins](./semantic_kernel/plugins/)
 - 1 Native Function with Semantic Memory integration - [search email](./semantic_kernel/search_emails.py#55)
 
-<video width="640" height="480" controls>
-  <source src="assets/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Watch the Demo](./assets/image.png)](./assets/demo.mp4)
 
 ## Get started
 
